@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hi>{{UserInfo.name}}님 환영</hi>
+    <h1>{{UserInfo.name}}님 환영</h1>
   </div>
 </template>
 

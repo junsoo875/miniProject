@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router/index";
-
+import axios from "axios";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -31,21 +31,47 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    login({ state, commit }, loginObj) {
-      let selectedUser = null;
-      state.allUsers.forEach((user) => {
-        if (user.email === loginObj.email) selectedUser = user;
-      });
-      if (selectedUser === null || selectedUser.password !== loginObj.password)
-        commit("loginError");
-      else {
-        commit("loginSuccess", selectedUser);
-        router.push({ name: "mypage" });
-      }
+    login({ dispatch }, loginObj) {
+      // 로그인 -> 토큰 반환
+      axios
+        .post("https://reqres.in/api/login", loginObj)
+        .then((res) => {
+          //성공시 토큰받으면 토큰을 헤더에 포함시켜서 다시 요청
+          let token = res.data.token;
+          localStorage.setItem("access_token", token);
+          dispatch("getMemberInfo");
+          //토큰을 로컬스토리지에 저장
+        })
+        .catch(() => {
+          alert("이메일과 비밀번호를 확인하세요");
+        });
     },
     logout({ commit }) {
       commit("logout");
       router.push({ name: "home" });
+    },
+    getMemberInfo({ commit }) {
+      //저장된 토큰을 불러온다
+
+      let token = localStorage.getItem("access_token");
+      let config = {
+        headers: {
+          "access-token": token,
+        },
+      };
+
+      axios
+        .get("https://reqres.in/api/user/2", config)
+        .then((response) => {
+          let userInfo = {
+            name: response.data.data.name,
+            id: response.data.data.id,
+          };
+          commit("loginSuccess", userInfo);
+        })
+        .catch(() => {
+          alert("이메일과 비밀번호를 확인하세요");
+        });
     },
   },
   modules: {},

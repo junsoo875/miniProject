@@ -12,6 +12,8 @@
             <v-text-field v-model="email" label="이메일을 입력하세요"></v-text-field>
             <v-text-field v-model="password" type="password" label="패스워드를 입력하세요"></v-text-field>
             <v-btn color="primary" depressed large block @click="login({email,password})">로그인</v-btn>
+            <!-- <v-btn @click="test">테스트</v-btn>
+            <v-btn @click="posttest">post테스트</v-btn>-->
           </div>
         </v-card>
       </v-flex>
@@ -33,6 +35,23 @@ export default {
   },
   methods: {
     ...mapActions(["login"])
+    // test() {
+    //   axios
+    //     .get("https://reqres.in/api/user?page=2")
+    //     .then(res => {
+    //       // handle success
+    //       console.log(res);
+    //     })
+    //     .catch(err => {
+    //       // handle error
+    //       console.log(error);
+    //     })
+    //     .then(() => {
+    //       console.log("test");
+    //       // always executed
+    //     });
+    // },
+    // posttest() {}
   }
 };
 </script>

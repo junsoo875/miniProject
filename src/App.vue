@@ -37,13 +37,13 @@
       <v-toolbar-items class="hidden-sm-and-down">
         <v-menu offset-y v-if="isLogin">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark v-on="on" flat icon>
+            <v-btn color="primary" dark v-on="on" icon>
               <v-icon more-vert></v-icon>
             </v-btn>
           </template>
           <v-list>
-            <v-list-item>
-              <v-list-item-title router :to="{name:'mypage'}">마이페이지</v-list-item-title>
+            <v-list-item router :to="{name:'mypage'}">
+              <v-list-item-title>마이페이지</v-list-item-title>
             </v-list-item>
             <v-list-item @click="$store.dispatch('logout')">
               <v-list-item-title>로그아웃</v-list-item-title>
